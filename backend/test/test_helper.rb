@@ -1,3 +1,8 @@
+# Start SimpleCov before the application loads so all files are tracked.
+# [https://github.com/simplecov-ruby/simplecov]
+require "simplecov"
+SimpleCov.start "rails"
+
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"

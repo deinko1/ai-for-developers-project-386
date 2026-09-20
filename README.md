@@ -14,6 +14,7 @@
 - **Frontend:** Vite 8 + React 19 + TypeScript + Tailwind CSS 4 + [shadcn/ui](https://ui.shadcn.com/)
 - **Менеджер версий:** [mise](https://mise.jdx.dev/) (Ruby 3.4, Node 24)
 - **Запуск обоих серверов:** foreman (`Procfile.dev`)
+- **Тесты и линтеры:** Minitest + SimpleCov + RuboCop (backend), Vitest + React Testing Library + oxlint (frontend)
 
 ## Структура
 
@@ -53,6 +54,12 @@ make setup
 
 `make setup` устанавливает гемы и npm-пакеты и готовит базу данных.
 
+После клонирования установите git-хук с проверками перед коммитом:
+
+```bash
+make hooks
+```
+
 ## Использование
 
 Запустить оба сервера одной командой:
@@ -73,7 +80,7 @@ make dev
 make help            # список всех команд
 make backend         # только Rails API (:3000)
 make frontend        # только Vite (:5173)
-make test            # тесты Rails + проверка типов TypeScript
+make test            # тесты Rails + тесты фронтенда + проверка типов
 make lint            # RuboCop + oxlint
 make build           # production-сборка фронтенда
 make console         # Rails console
@@ -82,6 +89,37 @@ make db-migrate      # миграции
 ```
 
 <!-- Добавьте запись asciinema — именно это смотрит работодатель -->
+
+## Тесты и линтеры
+
+Одна команда для полной проверки — линтеры, тесты и типы:
+
+```bash
+make check
+```
+
+Отдельные команды:
+
+```bash
+make backend-test       # тесты Rails (Minitest)
+make frontend-test      # тесты фронтенда (Vitest)
+make frontend-watch     # тесты фронтенда в режиме watch — удобно при разработке
+make frontend-typecheck # проверка типов TypeScript
+make backend-lint       # RuboCop
+make frontend-lint      # oxlint
+make backend-coverage   # тесты Rails + отчёт SimpleCov (backend/coverage/index.html)
+make frontend-coverage  # тесты фронтенда + отчёт о покрытии
+```
+
+Правило проекта: каждая новая фича приходит вместе с тестами. Фронтенд — Vitest + React Testing Library (`frontend/src/**/*.test.tsx`), бэкенд — Minitest (`backend/test/`). Для примера сейчас есть по одному тесту с каждой стороны.
+
+Чтобы проверки запускались автоматически перед каждым коммитом, один раз после клонирования установите git-хук:
+
+```bash
+make hooks
+```
+
+Хук выполняет `make check`; при необходимости его можно обойти через `git commit --no-verify`.
 
 ### shadcn/ui
 

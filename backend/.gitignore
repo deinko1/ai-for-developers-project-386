@@ -27,3 +27,6 @@
 
 # Ignore Kamal secrets.
 /.kamal/secrets
+
+# Ignore SimpleCov coverage reports.
+/coverage

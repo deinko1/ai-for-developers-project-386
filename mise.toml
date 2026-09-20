@@ -15,5 +15,9 @@ description = "Run the Rails API and Vite dev servers together"
 run = "make dev"
 
 [tasks.test]
-description = "Run backend tests and frontend type checks"
+description = "Run backend tests and frontend tests and type checks"
 run = "make test"
+
+[tasks.check]
+description = "Run linters, tests and type checks"
+run = "make check"

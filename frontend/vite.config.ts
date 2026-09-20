@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -20,6 +20,18 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+    },
+  },
+  // https://vitest.dev/config/
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    css: false,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/**/*.test.{ts,tsx}', 'src/test/**', 'src/main.tsx'],
     },
   },
 })
