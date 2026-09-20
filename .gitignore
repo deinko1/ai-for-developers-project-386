@@ -10,5 +10,8 @@
 # mise local overrides (machine-specific)
 .mise.local.toml
 
+# Node tooling at the repo root (commitlint)
+node_modules
+
 # Logs
 *.log

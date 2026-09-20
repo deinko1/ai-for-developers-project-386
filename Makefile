@@ -9,7 +9,7 @@ FRONTEND := frontend
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup install backend-install frontend-install db-prepare db-migrate db-reset \
+.PHONY: help setup install backend-install frontend-install commitlint-install db-prepare db-migrate db-reset \
         console routes dev backend frontend test check lint backend-lint frontend-lint \
         backend-test frontend-test frontend-typecheck backend-coverage frontend-coverage \
         hooks build clean
@@ -19,13 +19,16 @@ help: ## Show available commands
 
 setup: install db-prepare ## Install dependencies and prepare the database
 
-install: backend-install frontend-install ## Install all dependencies
+install: backend-install frontend-install commitlint-install ## Install all dependencies
 
 backend-install: ## Install Ruby gems
 	cd $(BACKEND) && $(MISE) bundle install
 
 frontend-install: ## Install npm packages
 	cd $(FRONTEND) && $(MISE) npm install
+
+commitlint-install: ## Install repo-level tooling (commitlint)
+	$(MISE) npm install
 
 db-prepare: ## Create the database (if needed) and run migrations
 	cd $(BACKEND) && $(MISE) bin/rails db:prepare
@@ -74,7 +77,7 @@ backend-coverage: ## Run Rails tests with a SimpleCov coverage report
 frontend-coverage: ## Run frontend tests with a coverage report
 	cd $(FRONTEND) && $(MISE) npm run test:coverage
 
-hooks: ## Install the git hooks (pre-commit runs `make check`)
+hooks: ## Install git hooks (pre-commit runs `make check`, commit-msg checks Conventional Commits)
 	git config core.hooksPath .githooks
 	@echo "Git hooks installed from .githooks/"
 

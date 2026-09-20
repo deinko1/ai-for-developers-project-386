@@ -121,6 +121,33 @@ make hooks
 
 Хук выполняет `make check`; при необходимости его можно обойти через `git commit --no-verify`.
 
+## Соглашение о коммитах
+
+Сообщения коммитов следуют [Conventional Commits](https://www.conventionalcommits.org/):
+
+```text
+<тип>(<область>): <описание>
+```
+
+Например:
+
+```text
+feat(backend): add bookings endpoint
+fix(frontend): handle empty calendar state
+test(backend): cover health endpoint
+docs: describe commit convention
+```
+
+Основные типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+
+Формат проверяется автоматически хуком `commit-msg` (commitlint + `@commitlint/config-conventional`, конфиг в `.commitlintrc.json`). Хук ставится вместе с остальными:
+
+```bash
+make hooks
+```
+
+Обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
+
 ### shadcn/ui
 
 Tailwind CSS v4 и shadcn/ui настроены (`frontend/components.json`), но готовых UI-компонентов пока нет — проект на этапе bootstrap.
