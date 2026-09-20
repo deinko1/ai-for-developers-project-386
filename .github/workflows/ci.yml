@@ -7,6 +7,7 @@ on:
 
 jobs:
   backend:
+    name: Backend
     runs-on: ubuntu-latest
 
     env:
@@ -38,6 +39,9 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          # Resolve Ruby from backend/.ruby-version and the lockfile from
+          # backend/Gemfile.lock, since neither is at the repo root.
+          working-directory: backend
           bundler-cache: true
 
       - name: Lint code for consistent style
@@ -50,12 +54,13 @@ jobs:
         run: bin/bundler-audit
 
       - name: Prepare test database
-        run: bin/rails db:test:prepare
+        run: bin/rails db:prepare
 
       - name: Run tests
         run: bin/rails test
 
   frontend:
+    name: Frontend
     runs-on: ubuntu-latest
 
     defaults:
@@ -86,6 +91,7 @@ jobs:
         run: npm run test
 
   commitlint:
+    name: Commit messages
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
