@@ -1,0 +1,145 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          working-directory: backend
+          bundler-cache: true
+
+      - name: Lint backend (RuboCop)
+        working-directory: backend
+        run: bundle exec rubocop
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint frontend (oxlint)
+        working-directory: frontend
+        run: npm run lint
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/backend/Gemfile
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/backend_test
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Resolve Ruby from backend/.ruby-version and the lockfile from
+          # backend/Gemfile.lock, since neither is at the repo root.
+          working-directory: backend
+          bundler-cache: true
+
+      - name: Scan for common Rails security vulnerabilities
+        run: bin/brakeman --no-pager
+
+      - name: Scan for known security vulnerabilities in gems
+        run: bin/bundler-audit
+
+      - name: Prepare test database
+        run: bin/rails db:prepare
+
+      - name: Run tests
+        run: bin/rails test
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm run test
+
+  commitlint:
+    name: Commit messages
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint commit messages
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose

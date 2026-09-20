@@ -1,0 +1,12 @@
+{
+  "name": "call-calendar",
+  "private": true,
+  "description": "Repo-level tooling: commit message linting (Conventional Commits)",
+  "scripts": {
+    "commitlint": "commitlint"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3"
+  }
+}
