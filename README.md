@@ -166,10 +166,32 @@ make hooks
 
 Первый релиз появится после первого коммита `feat:` или `fix:`: текущая история зафиксирована через `bootstrap-sha` в `release-please-config.json`.
 
-Два условия, которые нужно настроить один раз в репозитории:
+Условия, которые нужно настроить один раз в репозитории:
 
 - **Settings → Actions → General → «Allow GitHub Actions to create and approve pull requests»** — иначе release-please не сможет открыть PR.
-- Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT с правами `Contents` и `Pull requests: write`) — необязателен, но без него используется стандартный `GITHUB_TOKEN`, и обычные проверки (`.github/workflows/ci.yml`) на pull request'ах release-please не запускаются.
+- Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT с правами `Contents` и `Pull requests: write`) — если включена защита ветки, без него обязательные проверки блокируют релизный PR. Подробнее — в разделе [CI и защита ветки](#ci-и-защита-ветки).
+
+## CI и защита ветки
+
+Workflow `.github/workflows/ci.yml` запускается на каждый pull request и на пуш в `main` и состоит из трёх задач:
+
+| Проверка (required check) | Что делает |
+| --- | --- |
+| `Backend` | RuboCop, Brakeman, bundler-audit и тесты Rails |
+| `Frontend` | oxlint, проверка типов и тесты Vitest |
+| `Commit messages` | commitlint по коммитам PR (только для pull request'ов) |
+
+Чтобы PR можно было смёржить только после успешных проверок, включите защиту ветки `main`. Это настройка репозитория, в файлах она не хранится:
+
+1. Сначала запушьте ветку и откройте PR — GitHub показывает в списке только те проверки, которые уже хотя бы раз запускались.
+2. **Settings → Branches → Add branch protection rule**, pattern `main`:
+   - **Require a pull request before merging** — прямой пуш в `main` станет недоступен;
+   - **Require status checks to pass before merging** — отметьте `Backend`, `Frontend`, `Commit messages`;
+   - при желании — **Require branches to be up to date before merging**.
+3. **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
+4. Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT, `Contents` + `Pull requests: write`) — без него PR от release-please создаются штатным `GITHUB_TOKEN`, CI на них не запускается, и обязательные проверки блокируют релизный PR навсегда.
+
+Тот же набор проверок локально запускается командой `make check`.
 
 ## Переменные окружения
 
