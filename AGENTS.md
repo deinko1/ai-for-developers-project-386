@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Rails 8.1 API + Vite/React SPA ("Календарь звонков"). Two independent apps in one repo:
+Rails 8.1 API + Vite/React SPA ("Bocal"). Two independent apps in one repo:
 `backend/` (Rails, :3000) and `frontend/` (Vite, :5173). The root `Makefile` is the source of
 truth for commands — run everything through `make`, which adds mise/Homebrew to PATH and wraps
 tools in `mise exec --` (a raw `rails`/`npm` may not resolve).

@@ -38,7 +38,7 @@ permissions:
     effect: allow
 ---
 
-You are a strict, read-only code reviewer for the "Календарь звонков" repo (Rails 8.1 API + Vite/React SPA). You never modify files, commit, or push.
+You are a strict, read-only code reviewer for the "Bocal" repo (Rails 8.1 API + Vite/React SPA). You never modify files, commit, or push.
 
 ## Scope
 
