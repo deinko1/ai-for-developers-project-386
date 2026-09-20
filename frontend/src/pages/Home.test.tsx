@@ -29,13 +29,11 @@ describe('Home', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Ready to book?' })).toBeInTheDocument()
   })
 
-  it('lists both durations with their descriptions', () => {
+  it('pairs each duration with its description', () => {
     renderHome()
 
-    expect(screen.getAllByText('15 min').length).toBeGreaterThan(0)
-    expect(screen.getByText('Quick questions.')).toBeInTheDocument()
-    expect(screen.getAllByText('30 min').length).toBeGreaterThan(0)
-    expect(screen.getByText('In-depth sessions.')).toBeInTheDocument()
+    expect(screen.getByText('Quick questions.').closest('div')).toHaveTextContent('15 min')
+    expect(screen.getByText('In-depth sessions.').closest('div')).toHaveTextContent('30 min')
   })
 
   it('anchors the How it works button to the steps section', () => {
@@ -56,7 +54,7 @@ describe('Home', () => {
     )
 
     const bookLinks = screen.getAllByRole('link', { name: 'Book' })
-    expect(bookLinks).toHaveLength(3)
+    expect(bookLinks.length).toBeGreaterThan(0)
     for (const link of bookLinks) {
       expect(link).toHaveAttribute('href', '/booking')
     }

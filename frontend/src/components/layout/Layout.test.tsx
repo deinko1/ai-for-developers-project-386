@@ -19,8 +19,8 @@ describe('Layout', () => {
     expect(screen.getByRole('link', { name: 'About' })).toHaveAttribute('href', '/about')
   })
 
-  it('wraps every route with the header and footer', () => {
-    renderAt('/booking')
+  it.each(['/', '/about', '/booking'])('wraps %s with the header and footer', (path) => {
+    renderAt(path)
 
     expect(screen.getByRole('banner')).toBeInTheDocument()
     expect(screen.getByRole('contentinfo')).toBeInTheDocument()
