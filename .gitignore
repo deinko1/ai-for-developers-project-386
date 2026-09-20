@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Local environment files (keep the examples committed)
+.env
+.env.*
+!.env.example
+*.local
+
+# mise local overrides (machine-specific)
+.mise.local.toml
+
+# Logs
+*.log
