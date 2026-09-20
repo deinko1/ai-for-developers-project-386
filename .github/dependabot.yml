@@ -5,13 +5,38 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # image_processing 2.x requires an explicit ruby-vips backend, which needs
+      # libvips installed locally (make setup does not install it). Stay on 1.x
+      # until image variants are actually used; then adopt ruby-vips + libvips.
+      - dependency-name: "image_processing"
+        update-types:
+          - version-update:semver-major
   - package-ecosystem: npm
     directory: "/frontend"
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    groups:
+      github-actions:
+        patterns:
+          - "*"
