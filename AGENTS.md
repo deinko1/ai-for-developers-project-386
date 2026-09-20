@@ -39,6 +39,8 @@ tools in `mise exec --` (a raw `rails`/`npm` may not resolve).
   `make check`; bypass with `git commit --no-verify`.
 - New features must ship with tests: Minitest in `backend/test/`, Vitest + RTL in
   `frontend/src/**/*.test.tsx`.
+- Before opening a PR, have the `pr-reviewer` subagent review the branch
+  (`.opencode/agents/pr-reviewer.md`) and fix any `blocker` findings.
 - Never edit, delete, or rename `.github/workflows/hexlet-check.yml` or the repository — Hexlet-managed.
 
 ## Env
