@@ -1,5 +1,5 @@
 {
-  "name": "call-calendar",
+  "name": "bocal",
   "private": true,
   "description": "Repo-level tooling: commit message linting (Conventional Commits)",
   "scripts": {

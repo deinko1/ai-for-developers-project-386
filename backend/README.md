@@ -1,6 +1,6 @@
 # Backend — Rails API
 
-Rails 8.1 (API-only) на PostgreSQL для проекта «Календарь звонков». Установка, запуск и общие команды — в корневом [README](../README.md).
+Rails 8.1 (API-only) на PostgreSQL для проекта «Bocal». Установка, запуск и общие команды — в корневом [README](../README.md).
 
 - API: <http://localhost:3000>
 - Проверка: <http://localhost:3000/api/v1/health>

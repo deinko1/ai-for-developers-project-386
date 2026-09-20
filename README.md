@@ -1,8 +1,8 @@
-# Календарь звонков
+# Bocal
 
 [![hexlet-check](https://github.com/deinko1/ai-for-developers-project-386/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/deinko1/ai-for-developers-project-386/actions)
 
-Сервис для бронирования календаря звонков, разработанный совместно с ИИ.
+Сервис для бронирования онлайн-сессий со специалистами, разработанный совместно с ИИ.
 
 Учебный проект Хекслета: https://ru.hexlet.io/programs/ai-for-developers
 Как это должно работать: https://files.hexlet.app/a/2ipc5m

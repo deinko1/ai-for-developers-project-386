@@ -1,6 +1,6 @@
 # Frontend — Vite + React
 
-Vite 8 + React 19 + TypeScript + Tailwind CSS 4 для проекта «Календарь звонков». Установка, запуск и общие команды — в корневом [README](../README.md).
+Vite 8 + React 19 + TypeScript + Tailwind CSS 4 для проекта «Bocal». Установка, запуск и общие команды — в корневом [README](../README.md).
 
 - Dev-сервер: <http://localhost:5173>
 - Запросы на `/api/*` проксируются на Rails (`vite.config.ts`)
