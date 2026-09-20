@@ -1,4 +1,8 @@
 SHELL    := /bin/bash
+# make runs recipes in a non-interactive shell that does not load ~/.zshrc,
+# so put mise and Homebrew on PATH explicitly.
+export PATH := $(HOME)/.local/bin:/opt/homebrew/bin:$(PATH)
+
 MISE     := mise exec --
 BACKEND  := backend
 FRONTEND := frontend
