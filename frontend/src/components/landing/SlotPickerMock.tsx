@@ -1,4 +1,3 @@
-import { durations } from '../../lib/durations'
 import { cn } from '../../lib/utils'
 
 type SlotState = 'available' | 'selected' | 'unavailable'
@@ -30,24 +29,7 @@ const slotStateClasses: Record<SlotState, string> = {
 function SlotPickerMock() {
   return (
     <div aria-hidden="true" className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-sm font-medium">Choose a slot</p>
-        <div className="flex rounded-full border border-border p-0.5 text-xs">
-          {durations.map((duration, index) => (
-            <span
-              key={duration.label}
-              className={cn(
-                'rounded-full px-3 py-1',
-                index === durations.length - 1
-                  ? 'bg-primary font-medium text-primary-foreground'
-                  : 'text-muted-foreground',
-              )}
-            >
-              {duration.label}
-            </span>
-          ))}
-        </div>
-      </div>
+      <p className="text-sm font-medium">Choose a slot</p>
       <div className="mt-6 grid grid-cols-3 gap-2 text-sm">
         {slots.map((slot) => (
           <span

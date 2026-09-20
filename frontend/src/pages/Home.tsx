@@ -2,7 +2,6 @@ import BookCta from '../components/BookCta'
 import Container from '../components/Container'
 import SlotPickerMock from '../components/landing/SlotPickerMock'
 import { buttonVariants } from '../components/ui/button'
-import { durations } from '../lib/durations'
 import { cn } from '../lib/utils'
 
 const steps = ['Pick a specialist', 'Choose a slot', 'Meet online']
@@ -20,7 +19,7 @@ function Hero() {
             Book time with specialists
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Online sessions of 15 or 30 minutes.
+            Online sessions, at a time that works for you.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <BookCta />
@@ -33,21 +32,6 @@ function Hero() {
           </div>
         </div>
         <SlotPickerMock />
-      </Container>
-    </section>
-  )
-}
-
-function Durations() {
-  return (
-    <section className="border-y border-border/60 bg-muted/30">
-      <Container className="grid gap-6 py-12 sm:grid-cols-2">
-        {durations.map((duration) => (
-          <div key={duration.label} className="rounded-xl border border-border bg-card p-6">
-            <p className="font-heading text-2xl font-semibold text-primary">{duration.label}</p>
-            <p className="mt-2 text-muted-foreground">{duration.description}</p>
-          </div>
-        ))}
       </Container>
     </section>
   )
@@ -94,7 +78,6 @@ function Home() {
   return (
     <>
       <Hero />
-      <Durations />
       <HowItWorks />
       <FinalCta />
     </>

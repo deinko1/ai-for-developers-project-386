@@ -23,7 +23,8 @@ duration, starts are aligned to the hour.
 _Avoid_: grid, timeslot
 
 **Slot**:
-A bookable interval inside a free time — 15 or 30 minutes, starting on the slot grid.
+A bookable interval inside a free time, starting on the slot grid; its length comes from the
+specialist's meeting type.
 _Avoid_: window, interval
 
 **Booking**:
