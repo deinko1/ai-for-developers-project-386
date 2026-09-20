@@ -11,7 +11,7 @@
 ## Стек
 
 - **Backend:** Ruby on Rails 8.1 (API-only), PostgreSQL 18
-- **Frontend:** Vite 8 + React 19 + TypeScript
+- **Frontend:** Vite 8 + React 19 + TypeScript + Tailwind CSS 4 + [shadcn/ui](https://ui.shadcn.com/)
 - **Менеджер версий:** [mise](https://mise.jdx.dev/) (Ruby 3.4, Node 24)
 - **Запуск обоих серверов:** foreman (`Procfile.dev`)
 
@@ -82,6 +82,16 @@ make db-migrate      # миграции
 ```
 
 <!-- Добавьте запись asciinema — именно это смотрит работодатель -->
+
+### shadcn/ui
+
+Tailwind CSS v4 и shadcn/ui настроены (`frontend/components.json`), но готовых UI-компонентов пока нет — проект на этапе bootstrap.
+Добавить компонент по мере необходимости:
+
+```bash
+cd frontend
+npx shadcn@latest add button
+```
 
 ## Переменные окружения
 
