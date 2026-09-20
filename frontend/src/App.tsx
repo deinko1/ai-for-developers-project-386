@@ -1,21 +1,18 @@
-import { Link, Route, Routes } from 'react-router'
+import { Route, Routes } from 'react-router'
+import Layout from './components/layout/Layout'
 import About from './pages/About'
+import Booking from './pages/Booking'
 import Home from './pages/Home'
 
 function App() {
   return (
-    <>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-      </nav>
-      <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </main>
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/booking" element={<Booking />} />
+      </Route>
+    </Routes>
   )
 }
 
