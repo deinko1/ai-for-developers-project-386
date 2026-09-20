@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "oxlint",
+    "lint": "oxlint && npm run lint:tailwind",
+    "lint:tailwind": "node scripts/lint-tailwind.mjs",
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -38,6 +39,7 @@
     "@vitest/coverage-v8": "^5.0.1",
     "jsdom": "^30.1.0",
     "oxlint": "^1.81.0",
+    "tailwind-lint": "^0.12.1",
     "typescript": "~7.0.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.1"

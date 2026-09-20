@@ -64,7 +64,7 @@ function HowItWorks() {
               {index < steps.length - 1 && (
                 <span
                   aria-hidden="true"
-                  className="absolute top-[17px] left-1/2 hidden h-0.5 w-[calc(100%+2rem)] bg-border sm:block"
+                  className="absolute top-4.25 left-1/2 hidden h-0.5 w-[calc(100%+2rem)] bg-border sm:block"
                 />
               )}
               <span className="relative flex size-9 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground">
