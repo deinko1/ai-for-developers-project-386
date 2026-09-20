@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Run release-please
-        uses: googleapis/release-please-action@v4
+        uses: googleapis/release-please-action@v5
         with:
           # Uses a PAT if provided (so CI runs on the release PR), otherwise the
           # built-in token.
