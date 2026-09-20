@@ -15,17 +15,6 @@
 - **Запуск обоих серверов:** foreman (`Procfile.dev`)
 - **Тесты и линтеры:** Minitest + SimpleCov + RuboCop (backend), Vitest + React Testing Library + oxlint (frontend)
 
-## Структура
-
-```text
-.
-├── backend/        # Rails API (http://localhost:3000)
-├── frontend/       # Vite + React (http://localhost:5173)
-├── Makefile        # команды разработки
-├── Procfile.dev    # запуск backend + frontend вместе
-└── mise.toml       # версии Ruby и Node
-```
-
 ## Требования
 
 - macOS / Linux
@@ -59,7 +48,7 @@ make setup
 make hooks
 ```
 
-## Использование
+## Запуск
 
 Запустить оба сервера одной командой:
 
@@ -81,17 +70,7 @@ make frontend # только Vite (:5173)
 make help     # полный список команд с описанием
 ```
 
-### shadcn/ui
-
-Tailwind CSS v4 и shadcn/ui настроены (`frontend/components.json`), но готовых UI-компонентов пока нет — проект на этапе bootstrap.
-Добавить компонент по мере необходимости:
-
-```bash
-cd frontend
-npx shadcn@latest add button
-```
-
-## Тесты и линтеры
+## Тесты
 
 Одна команда для полной проверки — линтеры, тесты и типы:
 
@@ -105,67 +84,10 @@ make check
 make test               # тесты Rails + тесты фронтенда + проверка типов
 make backend-test       # тесты Rails (Minitest)
 make frontend-test      # тесты фронтенда (Vitest)
-make frontend-watch     # тесты фронтенда в режиме watch
 make frontend-typecheck # проверка типов TypeScript
 ```
 
-Остальные команды (lint, coverage) — в `make help`.
-
-Правило проекта: каждая новая фича приходит вместе с тестами. Фронтенд — Vitest + React Testing Library (`frontend/src/**/*.test.tsx`), бэкенд — Minitest (`backend/test/`). Для примера сейчас есть по одному тесту с каждой стороны.
-
-## Соглашение о коммитах
-
-Сообщения коммитов следуют [Conventional Commits](https://www.conventionalcommits.org/):
-
-```text
-<тип>(<область>): <описание>
-```
-
-Например:
-
-```text
-feat(backend): add bookings endpoint
-fix(frontend): handle empty calendar state
-test(backend): cover health endpoint
-docs: describe commit convention
-```
-
-Основные типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
-
-Формат проверяется автоматически хуком `commit-msg` (commitlint + `@commitlint/config-conventional`, конфиг в `.commitlintrc.json`). Хук ставится один раз при настройке проекта — `make hooks` (см. «Установка»); обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
-
-## CI
-
-Workflow `.github/workflows/ci.yml` запускается на каждый pull request и на пуш в `main` и состоит из четырёх задач:
-
-| Проверка (required check) | Что делает |
-| --- | --- |
-| `Lint` | RuboCop (backend) и oxlint (frontend) |
-| `Backend` | Brakeman, bundler-audit и тесты Rails |
-| `Frontend` | проверка типов и тесты Vitest |
-| `Commit messages` | commitlint по коммитам PR (только для pull request'ов) |
-
-Тот же набор проверок локально запускается командой `make check`.
-
-Разовая настройка репозитория (защита ветки, `RELEASE_PLEASE_TOKEN`) — в [docs/repository-setup.md](docs/repository-setup.md).
-
-## Релизы
-
-Версии и `CHANGELOG.md` генерируются автоматически из Conventional Commits с помощью [release-please](https://github.com/googleapis/release-please); workflow — `.github/workflows/release-please.yml`. Это ещё одна причина следовать соглашению о коммитах: `fix:` даёт patch-версию, `feat:` — minor, а `feat!:` или футер `BREAKING CHANGE:` — major.
-
-Как это работает: после пуша в `main` release-please создаёт или обновляет pull request с новой версией и записями в `CHANGELOG.md`. Пока PR не смержен, релиз не выходит — мержим PR и получаем git-тег `vX.Y.Z` и GitHub Release.
-
-Первый релиз появится после первого коммита `feat:` или `fix:`: текущая история зафиксирована через `bootstrap-sha` в `release-please-config.json`.
-
-Для работы release-please нужны две разовые настройки репозитория — включённое создание PR через GitHub Actions и секрет `RELEASE_PLEASE_TOKEN`. Они описаны в [docs/repository-setup.md](docs/repository-setup.md).
-
-## Переменные окружения
-
-| Переменная | Где | Назначение |
-| --- | --- | --- |
-| `DATABASE_URL` | backend | Подключение к PostgreSQL (переопределяет `config/database.yml`) |
-| `FRONTEND_ORIGIN` | backend | Дополнительный origin для CORS в production |
-| `RAILS_MAX_THREADS` | backend | Размер пула соединений (по умолчанию 5) |
+Правило проекта: каждая новая фича приходит вместе с тестами. Фронтенд — Vitest + React Testing Library (`frontend/src/**/*.test.tsx`), бэкенд — Minitest (`backend/test/`).
 
 ---
 
