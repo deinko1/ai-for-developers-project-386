@@ -50,3 +50,17 @@ tools in `mise exec --` (a raw `rails`/`npm` may not resolve).
 
 `DATABASE_URL` (overrides `config/database.yml`), `FRONTEND_ORIGIN` (prod CORS), `RAILS_MAX_THREADS`
 (DB pool, default 5). No `.env.example` is committed.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live as GitHub issues (via `gh`) in `deinko1/ai-for-developers-project-386`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage roles, label strings equal to their names. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo (one `CONTEXT.md` + `docs/adr/` at the root). See `docs/agents/domain.md`.
