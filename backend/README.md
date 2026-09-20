@@ -1,24 +1,17 @@
-# README
+# Backend — Rails API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 8.1 (API-only) на PostgreSQL для проекта «Календарь звонков». Установка, запуск и общие команды — в корневом [README](../README.md).
 
-Things you may want to cover:
+- API: <http://localhost:3000>
+- Проверка: <http://localhost:3000/api/v1/health>
 
-* Ruby version
+```bash
+make backend      # запустить Rails API на :3000
+make console      # Rails console
+make routes       # список маршрутов
+make db-migrate   # миграции
+make backend-test # тесты (Minitest)
+make backend-lint # RuboCop
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Тесты лежат в `test/`, переменные окружения (`DATABASE_URL`, `RAILS_MAX_THREADS` и др.) описаны в корневом README.

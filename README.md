@@ -1,9 +1,8 @@
 # Календарь звонков
 
-
 [![hexlet-check](https://github.com/deinko1/ai-for-developers-project-386/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/deinko1/ai-for-developers-project-386/actions)
 
-Разработайте совместно с ИИ сервис для бронирования календаря
+Сервис для бронирования календаря звонков, разработанный совместно с ИИ.
 
 Учебный проект Хекслета: https://ru.hexlet.io/programs/ai-for-developers
 Как это должно работать: https://files.hexlet.app/a/2ipc5m
@@ -54,7 +53,7 @@ make setup
 
 `make setup` устанавливает гемы и npm-пакеты и готовит базу данных.
 
-После клонирования установите git-хук с проверками перед коммитом:
+После клонирования установите git-хуки (pre-commit запускает `make check`, commit-msg проверяет формат сообщений):
 
 ```bash
 make hooks
@@ -87,8 +86,6 @@ make console         # Rails console
 make routes          # список маршрутов
 make db-migrate      # миграции
 ```
-
-<!-- Добавьте запись asciinema — именно это смотрит работодатель -->
 
 ### shadcn/ui
 
@@ -123,14 +120,6 @@ make frontend-coverage  # тесты фронтенда + отчёт о покр
 
 Правило проекта: каждая новая фича приходит вместе с тестами. Фронтенд — Vitest + React Testing Library (`frontend/src/**/*.test.tsx`), бэкенд — Minitest (`backend/test/`). Для примера сейчас есть по одному тесту с каждой стороны.
 
-Чтобы проверки запускались автоматически перед каждым коммитом, один раз после клонирования установите git-хук:
-
-```bash
-make hooks
-```
-
-Хук выполняет `make check`; при необходимости его можно обойти через `git commit --no-verify`.
-
 ## Соглашение о коммитах
 
 Сообщения коммитов следуют [Conventional Commits](https://www.conventionalcommits.org/):
@@ -150,13 +139,30 @@ docs: describe commit convention
 
 Основные типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
 
-Формат проверяется автоматически хуком `commit-msg` (commitlint + `@commitlint/config-conventional`, конфиг в `.commitlintrc.json`). Хук ставится вместе с остальными:
+Формат проверяется автоматически хуком `commit-msg` (commitlint + `@commitlint/config-conventional`, конфиг в `.commitlintrc.json`). Хук ставится один раз при настройке проекта — `make hooks` (см. «Установка»); обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
 
-```bash
-make hooks
-```
+## CI и защита ветки
 
-Обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
+Workflow `.github/workflows/ci.yml` запускается на каждый pull request и на пуш в `main` и состоит из четырёх задач:
+
+| Проверка (required check) | Что делает |
+| --- | --- |
+| `Lint` | RuboCop (backend) и oxlint (frontend) |
+| `Backend` | Brakeman, bundler-audit и тесты Rails |
+| `Frontend` | проверка типов и тесты Vitest |
+| `Commit messages` | commitlint по коммитам PR (только для pull request'ов) |
+
+Чтобы PR можно было смёржить только после успешных проверок, включите защиту ветки `main`. Это настройка репозитория, в файлах она не хранится:
+
+1. Сначала запушьте ветку и откройте PR — GitHub показывает в списке только те проверки, которые уже хотя бы раз запускались.
+2. **Settings → Branches → Add branch protection rule**, pattern `main`:
+   - **Require a pull request before merging** — прямой пуш в `main` станет недоступен;
+   - **Require status checks to pass before merging** — отметьте `Lint`, `Backend`, `Frontend`, `Commit messages`;
+   - при желании — **Require branches to be up to date before merging**.
+3. **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
+4. Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT, `Contents` + `Pull requests: write`) — без него PR от release-please создаются штатным `GITHUB_TOKEN`, CI на них не запускается, и обязательные проверки блокируют релизный PR навсегда.
+
+Тот же набор проверок локально запускается командой `make check`.
 
 ## Релизы
 
@@ -166,32 +172,7 @@ make hooks
 
 Первый релиз появится после первого коммита `feat:` или `fix:`: текущая история зафиксирована через `bootstrap-sha` в `release-please-config.json`.
 
-Условия, которые нужно настроить один раз в репозитории:
-
-- **Settings → Actions → General → «Allow GitHub Actions to create and approve pull requests»** — иначе release-please не сможет открыть PR.
-- Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT с правами `Contents` и `Pull requests: write`) — если включена защита ветки, без него обязательные проверки блокируют релизный PR. Подробнее — в разделе [CI и защита ветки](#ci-и-защита-ветки).
-
-## CI и защита ветки
-
-Workflow `.github/workflows/ci.yml` запускается на каждый pull request и на пуш в `main` и состоит из трёх задач:
-
-| Проверка (required check) | Что делает |
-| --- | --- |
-| `Backend` | RuboCop, Brakeman, bundler-audit и тесты Rails |
-| `Frontend` | oxlint, проверка типов и тесты Vitest |
-| `Commit messages` | commitlint по коммитам PR (только для pull request'ов) |
-
-Чтобы PR можно было смёржить только после успешных проверок, включите защиту ветки `main`. Это настройка репозитория, в файлах она не хранится:
-
-1. Сначала запушьте ветку и откройте PR — GitHub показывает в списке только те проверки, которые уже хотя бы раз запускались.
-2. **Settings → Branches → Add branch protection rule**, pattern `main`:
-   - **Require a pull request before merging** — прямой пуш в `main` станет недоступен;
-   - **Require status checks to pass before merging** — отметьте `Backend`, `Frontend`, `Commit messages`;
-   - при желании — **Require branches to be up to date before merging**.
-3. **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
-4. Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT, `Contents` + `Pull requests: write`) — без него PR от release-please создаются штатным `GITHUB_TOKEN`, CI на них не запускается, и обязательные проверки блокируют релизный PR навсегда.
-
-Тот же набор проверок локально запускается командой `make check`.
+Для работы release-please нужны две разовые настройки репозитория — включённое создание PR через GitHub Actions и секрет `RELEASE_PLEASE_TOKEN`. Они описаны в разделе [«CI и защита ветки»](#ci-и-защита-ветки).
 
 ## Переменные окружения
 
