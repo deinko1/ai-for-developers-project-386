@@ -90,6 +90,16 @@ make db-migrate      # миграции
 
 <!-- Добавьте запись asciinema — именно это смотрит работодатель -->
 
+### shadcn/ui
+
+Tailwind CSS v4 и shadcn/ui настроены (`frontend/components.json`), но готовых UI-компонентов пока нет — проект на этапе bootstrap.
+Добавить компонент по мере необходимости:
+
+```bash
+cd frontend
+npx shadcn@latest add button
+```
+
 ## Тесты и линтеры
 
 Одна команда для полной проверки — линтеры, тесты и типы:
@@ -148,15 +158,18 @@ make hooks
 
 Обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
 
-### shadcn/ui
+## Релизы
 
-Tailwind CSS v4 и shadcn/ui настроены (`frontend/components.json`), но готовых UI-компонентов пока нет — проект на этапе bootstrap.
-Добавить компонент по мере необходимости:
+Версии и `CHANGELOG.md` генерируются автоматически из Conventional Commits с помощью [release-please](https://github.com/googleapis/release-please); workflow — `.github/workflows/release-please.yml`. Это ещё одна причина следовать соглашению о коммитах: `fix:` даёт patch-версию, `feat:` — minor, а `feat!:` или футер `BREAKING CHANGE:` — major.
 
-```bash
-cd frontend
-npx shadcn@latest add button
-```
+Как это работает: после пуша в `main` release-please создаёт или обновляет pull request с новой версией и записями в `CHANGELOG.md`. Пока PR не смержен, релиз не выходит — мержим PR и получаем git-тег `vX.Y.Z` и GitHub Release.
+
+Первый релиз появится после первого коммита `feat:` или `fix:`: текущая история зафиксирована через `bootstrap-sha` в `release-please-config.json`.
+
+Два условия, которые нужно настроить один раз в репозитории:
+
+- **Settings → Actions → General → «Allow GitHub Actions to create and approve pull requests»** — иначе release-please не сможет открыть PR.
+- Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT с правами `Contents` и `Pull requests: write`) — необязателен, но без него используется стандартный `GITHUB_TOKEN`, и обычные проверки (`.github/workflows/ci.yml`) на pull request'ах release-please не запускаются.
 
 ## Переменные окружения
 
