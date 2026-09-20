@@ -31,6 +31,12 @@ updates:
         update-types:
           - minor
           - patch
+    ignore:
+      # @types/node must match the Node runtime, which is pinned to 24 in
+      # .mise.toml and ci.yml. Bump Node first, then allow this major.
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
