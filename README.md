@@ -73,18 +73,12 @@ make dev
 
 Запросы с фронтенда на `/api/*` проксируются на Rails (см. `frontend/vite.config.ts`), поэтому CORS в разработке не нужен.
 
-Полезные команды:
+Запустить серверы по отдельности или посмотреть все команды:
 
 ```bash
-make help            # список всех команд
-make backend         # только Rails API (:3000)
-make frontend        # только Vite (:5173)
-make test            # тесты Rails + тесты фронтенда + проверка типов
-make lint            # RuboCop + oxlint
-make build           # production-сборка фронтенда
-make console         # Rails console
-make routes          # список маршрутов
-make db-migrate      # миграции
+make backend  # только Rails API (:3000)
+make frontend # только Vite (:5173)
+make help     # полный список команд с описанием
 ```
 
 ### shadcn/ui
@@ -105,18 +99,17 @@ npx shadcn@latest add button
 make check
 ```
 
-Отдельные команды:
+Запустить только тесты или проверку типов:
 
 ```bash
+make test               # тесты Rails + тесты фронтенда + проверка типов
 make backend-test       # тесты Rails (Minitest)
 make frontend-test      # тесты фронтенда (Vitest)
-make frontend-watch     # тесты фронтенда в режиме watch — удобно при разработке
+make frontend-watch     # тесты фронтенда в режиме watch
 make frontend-typecheck # проверка типов TypeScript
-make backend-lint       # RuboCop
-make frontend-lint      # oxlint
-make backend-coverage   # тесты Rails + отчёт SimpleCov (backend/coverage/index.html)
-make frontend-coverage  # тесты фронтенда + отчёт о покрытии
 ```
+
+Остальные команды (lint, coverage) — в `make help`.
 
 Правило проекта: каждая новая фича приходит вместе с тестами. Фронтенд — Vitest + React Testing Library (`frontend/src/**/*.test.tsx`), бэкенд — Minitest (`backend/test/`). Для примера сейчас есть по одному тесту с каждой стороны.
 
@@ -141,7 +134,7 @@ docs: describe commit convention
 
 Формат проверяется автоматически хуком `commit-msg` (commitlint + `@commitlint/config-conventional`, конфиг в `.commitlintrc.json`). Хук ставится один раз при настройке проекта — `make hooks` (см. «Установка»); обойти проверку можно через `git commit --no-verify`. В CI сообщения коммитов проверяются для pull request'ов.
 
-## CI и защита ветки
+## CI
 
 Workflow `.github/workflows/ci.yml` запускается на каждый pull request и на пуш в `main` и состоит из четырёх задач:
 
@@ -152,17 +145,9 @@ Workflow `.github/workflows/ci.yml` запускается на каждый pul
 | `Frontend` | проверка типов и тесты Vitest |
 | `Commit messages` | commitlint по коммитам PR (только для pull request'ов) |
 
-Чтобы PR можно было смёржить только после успешных проверок, включите защиту ветки `main`. Это настройка репозитория, в файлах она не хранится:
-
-1. Сначала запушьте ветку и откройте PR — GitHub показывает в списке только те проверки, которые уже хотя бы раз запускались.
-2. **Settings → Branches → Add branch protection rule**, pattern `main`:
-   - **Require a pull request before merging** — прямой пуш в `main` станет недоступен;
-   - **Require status checks to pass before merging** — отметьте `Lint`, `Backend`, `Frontend`, `Commit messages`;
-   - при желании — **Require branches to be up to date before merging**.
-3. **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
-4. Секрет `RELEASE_PLEASE_TOKEN` (fine-grained PAT, `Contents` + `Pull requests: write`) — без него PR от release-please создаются штатным `GITHUB_TOKEN`, CI на них не запускается, и обязательные проверки блокируют релизный PR навсегда.
-
 Тот же набор проверок локально запускается командой `make check`.
+
+Разовая настройка репозитория (защита ветки, `RELEASE_PLEASE_TOKEN`) — в [docs/repository-setup.md](docs/repository-setup.md).
 
 ## Релизы
 
@@ -172,7 +157,7 @@ Workflow `.github/workflows/ci.yml` запускается на каждый pul
 
 Первый релиз появится после первого коммита `feat:` или `fix:`: текущая история зафиксирована через `bootstrap-sha` в `release-please-config.json`.
 
-Для работы release-please нужны две разовые настройки репозитория — включённое создание PR через GitHub Actions и секрет `RELEASE_PLEASE_TOKEN`. Они описаны в разделе [«CI и защита ветки»](#ci-и-защита-ветки).
+Для работы release-please нужны две разовые настройки репозитория — включённое создание PR через GitHub Actions и секрет `RELEASE_PLEASE_TOKEN`. Они описаны в [docs/repository-setup.md](docs/repository-setup.md).
 
 ## Переменные окружения
 
