@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.1](https://github.com/deinko1/ai-for-developers-project-386/compare/v0.3.0...v0.3.1) (2026-09-27)
+
+
+### Bug Fixes
+
+* **docs:** remove Hexlet references from the README ([676e0ac](https://github.com/deinko1/ai-for-developers-project-386/commit/676e0aca84d47d8d11ea81232b1d0b61211136b0))
+* Update README to remove Hexlet project references ([766ef1c](https://github.com/deinko1/ai-for-developers-project-386/commit/766ef1ce109d4ea00590c5e3009b104f5b63653e))
+
 ## [0.3.0](https://github.com/deinko1/ai-for-developers-project-386/compare/v0.2.0...v0.3.0) (2026-09-27)
 
 
