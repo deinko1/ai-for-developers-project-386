@@ -25,15 +25,8 @@ describe('Home', () => {
   it('renders the hero subtitle and final call to action copy', () => {
     renderHome()
 
-    expect(screen.getByText('Online sessions of 15 or 30 minutes.')).toBeInTheDocument()
+    expect(screen.getByText('Online sessions, at a time that works for you.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 2, name: 'Ready to book?' })).toBeInTheDocument()
-  })
-
-  it('pairs each duration with its description', () => {
-    renderHome()
-
-    expect(screen.getByText('Quick questions.').closest('div')).toHaveTextContent('15 min')
-    expect(screen.getByText('In-depth sessions.').closest('div')).toHaveTextContent('30 min')
   })
 
   it('anchors the How it works button to the steps section', () => {

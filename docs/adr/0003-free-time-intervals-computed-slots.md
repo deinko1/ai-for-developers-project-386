@@ -1,7 +1,7 @@
 # Free time is stored as intervals, slots are computed
 
 A specialist publishes free time as wide intervals, and concrete slots are not stored: they are
-computed from free time, booked sessions, the duration the client chose (15 or 30 minutes) and the
+computed from free time, booked sessions, the duration of the specialist's meeting type and the
 slot grid. The alternative — pre-slicing slots when free time is saved — would force the specialist
 to keep a separate slicing for each duration and recompute it on every edit, and two slicings of
 the same time inevitably drift apart.
