@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/deinko1/ai-for-developers-project-386/compare/v0.2.0...v0.3.0) (2026-09-27)
+
+
+### Features
+
+* **frontend:** drop fixed session durations from the landing ([a2a7c25](https://github.com/deinko1/ai-for-developers-project-386/commit/a2a7c25daab8a829bfb6d842f9b7ac1f8f9bafde))
+* **frontend:** drop fixed session durations from the landing ([4188fe9](https://github.com/deinko1/ai-for-developers-project-386/commit/4188fe930fe738a47a42a96bda963b257effb370))
+
 ## [0.2.0](https://github.com/deinko1/ai-for-developers-project-386/compare/v0.1.0...v0.2.0) (2026-09-20)
 
 
