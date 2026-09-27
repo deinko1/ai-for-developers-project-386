@@ -4,9 +4,6 @@
 
 Сервис для бронирования онлайн-сессий со специалистами, разработанный совместно с ИИ.
 
-Учебный проект Хекслета: https://ru.hexlet.io/programs/ai-for-developers
-Как это должно работать: https://files.hexlet.app/a/2ipc5m
-
 ## Стек
 
 - **Backend:** Ruby on Rails 8.1 (API-only), PostgreSQL 18
